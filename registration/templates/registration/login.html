@@ -1,26 +1,53 @@
-{% extends 'core/base.html' %}
+{% extends 'core/baseRegistration.html' %}
+
+{% block title %} Login {% endblock %}
+
 {% load static %}
-{% block title %}Login{% endblock %}
-{% block content %}
-<div class="col-md-4 mx-auto mb-5 mt-3">
-  <form action="" method="post">{% csrf_token %}
-    <h3 class="mb-4">Iniciar sesión</h3>
-    {% if error %}
-      <div class="alert alert-danger mb-0">
-        {{ error }}
+
+{%block content%}
+
+<div class="p-3">
+  <div class="text-center">
+    <img src="{% static 'core/assets/images/logoproveedores.png' %}" alt="wrapkit">
+  </div>
+  <h2 class="mt-3 text-center">Iniciar Sesion</h2>
+  {% if error %}
+  <div class="alert alert-danger mb-0">
+    {{error}}
+  </div>
+  {% endif %}
+
+  {% if success %}
+  <div class="alert alert-success mb-0">
+    {{success}}
+  </div>
+  {% endif %}
+  <form class="mt-4" method="POST" autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="form-group">
+          <p>
+            {{ form.email.label }}
+            <input type="text" name="email" autofocus maxlength="254" required id="id_email" class="form-control"
+              placeholder="" />
+          </p>
+        </div>
       </div>
-    {% endif %}
-    <p>
-      {{ form.email.label }}
-      <input type="text" name="email" autofocus maxlength="254" required
-        id="id_email" class="form-control" placeholder=""/>
-    </p>
-    <p>
-      {{ form.password.label }}
-      <input type="password" name="password" required
-        id="id_password" class="form-control" placeholder=""/>
-    </p>
-    <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
+      <div class="col-lg-12">
+        <div class="form-group">
+          <p>
+            {{ form.password.label }}
+            <input type="password" name="password" required id="id_password" class="form-control" placeholder="" />
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-12 text-center">
+        <input type="submit" class="btn btn-primary btn-block" value="Acceder">
+      </div>
+    </div>
   </form>
 </div>
-{% endblock %}
+
+
+{% endblock%}
