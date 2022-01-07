@@ -16,6 +16,10 @@
     <link href="{% static 'core/assets/libs/chartist/dist/chartist.min.css' %}" rel="stylesheet">
     <link href="{% static 'core/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css' %}" rel="stylesheet" />
     <link href="{% static 'core/dist/css/style.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css">
 </head>
 
 <body>
@@ -50,9 +54,11 @@
                         <a href="index.html">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
-                                <img src="{% static 'core/assets/images/logoproveedores.png' %}" alt="homepage" class="dark-logo" style="width: 10vw;"/>
+                                <img src="{% static 'core/assets/images/logoproveedores.png' %}" alt="homepage"
+                                    class="dark-logo" style="width: 10vw;" />
                                 <!-- Light Logo icon -->
-                                <img src="{% static 'core/assets/images/logo-icon.png' %}" alt="homepage" class="light-logo" />
+                                <img src="{% static 'core/assets/images/logo-icon.png' %}" alt="homepage"
+                                    class="light-logo" />
                             </b>
                             <!--End Logo icon -->
                             <!-- Logo text -->
@@ -149,7 +155,7 @@
             <!-- End Sidebar scroll-->
         </aside>
         <div class="page-wrapper">
-        
+
             <div class="container-fluid">
                 {% block content %}{% endblock %}
             </div>
@@ -173,6 +179,11 @@
     <script src="{% static 'core/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js' %}"></script>
     <script src="{% static 'core/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js' %}"></script>
     <script src="{% static 'core/dist/js/pages/dashboards/dashboard1.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    {% block js_footer %}
+
+    {% endblock %}
 </body>
 
 </html>
