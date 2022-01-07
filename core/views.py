@@ -12,3 +12,7 @@ def home(request):
 @login_required(login_url='login')
 def generar_orden(request):
     return render(request, 'core/ordenCompra.html')
+
+@login_required(login_url='login')
+def historial_orden(request):
+    return render(request, 'core/historial.html')
