@@ -1,6 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from registration.decorators import unauthenticated_user, allow_users, admin_only
+from django.http import JsonResponse,HttpResponseRedirect
+from django.shortcuts import get_object_or_404
 
-# Create your views here.
 
+@login_required(login_url='login')
+@admin_only
 def home(request):
-    return render(request, 'core/sample.html')
+    return render(request, 'core/index-dashboard.html')
