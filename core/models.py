@@ -26,6 +26,8 @@ class Orden(models.Model):
     condiciones = models.CharField(max_length=250, verbose_name = "Condiciones")
     idDepartamento = models.ForeignKey(Departamento, on_delete = models.CASCADE, related_name='ordenes')
     estatus = models.BooleanField(default=True)
+    observacion = models.CharField(max_length = 200, verbose_name = "Observaciones")
+    firma = models.CharField(max_length = 50, verbose_name = "Firma")
 
     class Meta:
         verbose_name = 'Orden'
