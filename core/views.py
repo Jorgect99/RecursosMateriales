@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404
 
 
 @login_required(login_url='login')
-@admin_only
 def home(request):
     return render(request, 'core/index-dashboard.html')
+
+@login_required(login_url='login')
+def generar_orden(request):
+    return render(request, 'core/ordenCompra.html')

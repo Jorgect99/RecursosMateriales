@@ -50,7 +50,7 @@
                         <a href="index.html">
                             <b class="logo-icon">
                                 <!-- Dark Logo icon -->
-                                <img src="{% static 'core/assets/images/logo-icon.png' %}" alt="homepage" class="dark-logo" />
+                                <img src="{% static 'core/assets/images/logoproveedores.png' %}" alt="homepage" class="dark-logo" style="width: 10vw;"/>
                                 <!-- Light Logo icon -->
                                 <img src="{% static 'core/assets/images/logo-icon.png' %}" alt="homepage" class="light-logo" />
                             </b>
@@ -126,13 +126,13 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
                     <ul id="sidebarnav">
-                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="index.html"
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{% url 'admindashboard' %}"
                                 aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                     class="hide-menu">Inicio</span></a></li>
                         <li class="list-divider"></li>
                         <li class="nav-small-cap"><span class="hide-menu">Orden de Compra</span></li>
 
-                        <li class="sidebar-item"> <a class="sidebar-link" href="ticket-list.html"
+                        <li class="sidebar-item"> <a class="sidebar-link" href="{% url 'generar_orden' %}"
                                 aria-expanded="false"><i data-feather="tag" class="feather-icon"></i><span
                                     class="hide-menu">Generar
                                 </span></a>
@@ -149,17 +149,7 @@
             <!-- End Sidebar scroll-->
         </aside>
         <div class="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h2 class="card-title text-center">Bienvenido a la Gestion de Recursos Materiales</h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
             <div class="container-fluid">
                 {% block content %}{% endblock %}
             </div>
