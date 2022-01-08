@@ -23,16 +23,16 @@
                         </thead>
                         <tbody>
                             {% for orden in ordenes %}
-                                <tr>
-                                    <td>{{ orden.idOrden }}</td>
-                                    <td>{{ orden.idProveedor.nombre }}</td>
-                                    <td>{{ orden.fecha }}</td>
-                                    <td>{{ orden.total }}</td>
-                                    <td>
-                                        <a href="{% url 'detalle_orden' orden.pk %}" class=" btn waves-effect
+                            <tr>
+                                <td>{{ orden.idOrden }}</td>
+                                <td>{{ orden.idProveedor.nombre }}</td>
+                                <td>{{ orden.fecha }}</td>
+                                <td>{{ orden.total }}</td>
+                                <td>
+                                    <a href="{% url 'detalle_orden' orden.pk %}" class=" btn waves-effect
                                             waves-light btn-success">Ver</a>
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
                             {% endfor s%}
 
                         </tbody>
@@ -42,4 +42,17 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block js_footer %}
+<script>
+    $(document).ready(function () {
+        $('#zero_config').DataTable({
+            "order": [
+                [2, "desc"]
+            ]
+        });
+    });
+</script>
+
 {% endblock %}
