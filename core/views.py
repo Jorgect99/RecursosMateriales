@@ -36,34 +36,7 @@ def productos(request, id_proveedor):
         lista_productos.append({"idProducto":p.idProducto, "nombre":p.nombre, "precio":p.precio})
     return JsonResponse({"productos":lista_productos})
 
+@login_required(login_url='login')
+def detalle_orden(request):
+    return render(request, "core/detalleOrden.html")
 
-# @login_required(login_url='login')
-# def generar_orden(request):
-#     if request.method == 'POST':
-#         nums = []
-#         products = []
-#         subtotal = 0
-#         client = Client.objects.get(id=int(request.POST.get("client")))
-#         sale = Orden.objects.create(**{
-#             "client": client,
-#             "payment_method": request.POST.get("paymethod"),
-#         })
-#         for n in nums:
-#             product = Producto.objects.get(
-#                 id=int(request.POST.get("products_"+n)))
-#             DetalleOrden.objects.create(**{
-#                 "sale": sale,
-#                 "product": product,
-#                 "price_buy": product.price_buy,
-#                 "price_sell": product.price_sell,
-#                 "quantity": request.POST.get("qty_"+n),
-#             })
-#             subtotal += product.price_sell * int(request.POST.get("qty_"+n))
-
-#         sale.subtotal = subtotal
-#         sale.iva = subtotal * 0.16
-#         sale.total = subtotal * 1.16
-#         sale.save()
-
-       
-       

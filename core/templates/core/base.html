@@ -90,19 +90,14 @@
                                 aria-haspopup="true" aria-expanded="false">
 
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hola,</span> <span
-                                        class="text-dark">Departamento</span> <i data-feather="chevron-down"
+                                        class="text-dark">{{request.user}}</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="{% url 'login' %}"><i data-feather="user"
-                                        class="svg-icon mr-2 ml-1"></i>
-                                    Acceder</a>
                                 <a class="dropdown-item" href="{% url 'logout' %}"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
-                                <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
-                                        Profile</a></div>
+
                             </div>
                         </li>
                         <!-- ============================================================== -->
