@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="container-fluid">
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" id="proveedoresForm" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col-12">
@@ -86,7 +86,7 @@
                         </div>
                         <h3 class="card-title text-center mt-4 mb-4">Persona que realiza la orden</h3>
                         <div class="form-group">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" name="firma">
                         </div>
                         <div class="form-actions">
                             <div class="text-center">
@@ -214,11 +214,7 @@
                 confirmButtonText: 'Registrar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Registro completo',
-                        'La orden ha sido registrada',
-                        'success'
-                    )
+                    $('#proveedoresForm').submit();
                 }
             })
         });

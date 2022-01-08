@@ -16,9 +16,8 @@ def generar_orden(request):
     form = ProveedorForm()
     if request.method == 'POST':
         form = ProveedorForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('lista_imc')
+        new_sale(request)
+        return HttpResponseRedirect('/historial-orden')
     context = {'form':form}
     return render(request, 'core/ordenCompra.html', context)
 
@@ -40,3 +39,38 @@ def productos(request, id_proveedor):
 def detalle_orden(request):
     return render(request, "core/detalleOrden.html")
 
+
+def new_sale(request):
+    nums = []
+    for key in request.POST:
+        if "_" in key:
+            args = key.split("_")
+            if args[1] not in nums:
+                nums.append(args[1])
+
+    orden = Orden.objects.create(**{
+        "condiciones": request.POST.get("condiciones"),
+        "observacion": request.POST.get("observaciones"),
+        "firma": request.POST.get("firma"),
+        "idDepartamento": request.user.departamento,
+        "estatus": "En espera...",
+    })
+
+    subtotal = 0
+    for n in nums:
+        product = Producto.objects.get(
+            pk=int(request.POST.get("products_"+n)))
+        DetalleOrden.objects.create(**{
+            "cantidad": request.POST.get("qty_"+n),
+            "descripción": product.descripción,
+            "precio": product.precio,
+            "idOrden": orden,
+            "idProducto": product,
+        })
+        subtotal += product.precio * int(request.POST.get("qty_"+n))
+
+    orden.subtotal = subtotal
+    orden.iva = subtotal * 0.16
+    orden.total = subtotal * 1.16
+    orden.save()
+    

@@ -9,6 +9,7 @@ class Departamento(models.Model):
     nombre_encargado = models.CharField(max_length=250, verbose_name = "Nombre Encargado")
     correo =  models.CharField(max_length=250, verbose_name = "Correo")
     telefono = models.CharField(max_length=10, verbose_name = "Telefono")
+    idUsuario = models.OneToOneField(User, blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         verbose_name = 'Departamento'
@@ -25,7 +26,7 @@ class Orden(models.Model):
     fecha = models.DateTimeField(auto_now_add=True, verbose_name = "Fecha de orden")
     condiciones = models.CharField(max_length=250, verbose_name = "Condiciones")
     idDepartamento = models.ForeignKey(Departamento, on_delete = models.CASCADE, related_name='ordenes')
-    estatus = models.BooleanField(default=True)
+    estatus = models.CharField(max_length=50, verbose_name = "Estatus")
     observacion = models.CharField(max_length = 200, verbose_name = "Observaciones")
     firma = models.CharField(max_length = 50, verbose_name = "Firma")
 
