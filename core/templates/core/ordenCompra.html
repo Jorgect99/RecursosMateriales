@@ -26,7 +26,7 @@
                         <div class="row">
                             <label class="col-lg-2 text-dark">Productos</label>
                             <div class="col-lg-4">
-                                <select class="form-control selectProducts_1" id="selectProducts_1" name="products_1"
+                                <select class="form-control selectProducts" id="selectProducts_1" name="products_1"
                                     required onchange="getPrice(1)">
                                     <option value=""></option>
                                     {% for p in products %}
@@ -100,7 +100,6 @@
 {% block js_footer %}
 
 <script>
-
     function getPrice(y) {
         $('#qty_' + y).val(1);
         let price = $('#selectProducts_' + y + ' option:selected').attr('price');
@@ -127,9 +126,27 @@
         $("#total").text('$' + (sumPrices * 1.16).toFixed(2));
     }
     $(document).ready(function () {
-
+        let productos = [];
+        $("#id_provedor").change(function () {
+            $(".prices").val("");
+            $("#subtotal").text("$0.00");
+            $("#iva").text("$0.00");
+            $("#total").text("$0.00");
+            jQuery.ajax({
+                dataType: "json",
+                type: "GET",
+                url: "productos/" + $("#id_provedor").val(),
+                success: function (data) {
+                    productos = data.productos;
+                    $(".selectProducts").empty().append($("<option>"));
+                    productos.forEach(e => (
+                        $(".selectProducts").append($("<option>", { value: e.idProducto, text: e.nombre, price: e.precio }))
+                    ));
+                }
+            })
+        });
         $('#selectProveedor').select2({ theme: 'bootstrap4' });
-        $('.selectProducts_1').select2({ theme: 'bootstrap4' });
+        $('#selectProducts_1').select2({ theme: 'bootstrap4' });
 
         let x = 1;
         let addButton = $('#btnAddInput');
@@ -140,12 +157,8 @@
                                 <div class="row">
                                     <label class="col-lg-2 text-dark">Productos</label>
                                     <div class="col-lg-4">
-                                        <select class="form-control selectProducts_${x}" id="selectProducts_${x}" name="products_${x}"
+                                        <select class="form-control selectProducts" id="selectProducts_${x}" name="products_${x}"
                                             required onchange="getPrice(${x})">
-                                            <option value=""></option>
-                                            {% for p in products %}
-                                            <option value="{{p.id}}" price={{p.price_sell}}>{{p}}</option>
-                                            {% endfor %}
                                         </select>
                                     </div>
                                     <div class="col-lg-2">
@@ -162,7 +175,11 @@
                                 </div>
                             </div>`
             $(wrapper).append(fieldHTML);
-            $('.selectProducts_' + x + ':last').select2({ theme: 'bootstrap4' });
+            $('#selectProducts_' + x + ':last').append($("<option>"));
+            productos.forEach(e => (
+                $('#selectProducts_' + x + ':last').append($("<option>", { value: e.idProducto, text: e.nombre, price: e.precio }))
+            ));
+            $('#selectProducts_' + x + ':last').select2({ theme: 'bootstrap4' });
 
         });
         $(wrapper).on('click', '.btnDeleteSelect', function (e) {
