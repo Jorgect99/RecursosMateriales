@@ -18,13 +18,13 @@ def generar_orden(request):
     if request.method == 'POST':
         form = ProveedorForm(request.POST)
         idOrden = new_sale(request)
-        return HttpResponseRedirect('/detalle-orden/'+idOrden)
+        return HttpResponseRedirect('/detalle-orden/'+str(idOrden))
     context = {'form':form}
     return render(request, 'core/ordenCompra.html', context)
 
 @login_required(login_url='login')
 def historial_orden(request):
-    ordenes = Orden.objects.all();
+    ordenes = Orden.objects.filter(idDepartamento=request.user.departamento);
     context = {'ordenes':ordenes}
     return render(request, 'core/historial.html', context)
 
@@ -40,7 +40,10 @@ def productos(request, id_proveedor):
 def detalle_orden(request, id_orden):
     orden = Orden.objects.get(pk=id_orden)
     context = {'orden':orden}
-    print(orden)
+    response = requests.get('https://deerland-finanzas.herokuapp.com/solicitud-recursos/'+ str(orden.idSolicitud))
+    resp = response.json()
+    orden.estatus = resp[0]["ES_Solicitud_R"]
+    orden.save() 
     return render(request, "core/detalleOrden.html", context)
 
 
@@ -57,8 +60,8 @@ def new_sale(request):
         "observacion": request.POST.get("observaciones"),
         "firma": request.POST.get("firma"),
         "idDepartamento": request.user.departamento,
-        "estatus": "En espera...",
-        "idProveedor": request.POST.get("provedor"),
+        "estatus": "En espera",
+        "idProveedor_id": request.POST.get("provedor"),
     })
     
     subtotal = 0
