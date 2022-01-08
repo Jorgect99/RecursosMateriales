@@ -4,6 +4,7 @@ from registration.decorators import unauthenticated_user, allow_users, admin_onl
 from django.http import JsonResponse,HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from .forms import ProveedorForm
+from .models import *
 
 @login_required(login_url='login')
 def home(request):
@@ -24,3 +25,12 @@ def generar_orden(request):
 @login_required(login_url='login')
 def historial_orden(request):
     return render(request, 'core/historial.html')
+
+@login_required(login_url='login')
+def productos(request, id_proveedor):
+    productos = Producto.objects.filter(idProveedor=id_proveedor)
+    lista_productos = []
+    for p in productos:
+        lista_productos.append({"idProducto":p.idProducto, "nombre":p.nombre, "precio":p.precio})
+
+    return JsonResponse({"productos":lista_productos})
