@@ -27,7 +27,7 @@
                                 <td>{{ orden.idOrden }}</td>
                                 <td>{{ orden.idProveedor.nombre }}</td>
                                 <td>{{ orden.fecha }}</td>
-                                <td>{{ orden.total }}</td>
+                                <td>${{ orden.total |floatformat:-2 }}</td>
                                 <td>
                                     <a href="{% url 'detalle_orden' orden.pk %}" class=" btn waves-effect
                                             waves-light btn-success">Ver</a>
