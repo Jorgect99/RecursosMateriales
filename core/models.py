@@ -29,6 +29,8 @@ class Orden(models.Model):
     estatus = models.CharField(max_length=50, verbose_name = "Estatus")
     observacion = models.CharField(max_length = 200, verbose_name = "Observaciones")
     firma = models.CharField(max_length = 50, verbose_name = "Firma")
+    idSolicitud = models.PositiveIntegerField(default= 0, verbose_name = "Solicitud")
+    idProveedor = models.ForeignKey("core.Proveedor", on_delete = models.CASCADE, related_name='ordenes')
 
     class Meta:
         verbose_name = 'Orden'

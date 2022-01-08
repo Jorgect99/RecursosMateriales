@@ -5,6 +5,7 @@ from django.http import JsonResponse,HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from .forms import ProveedorForm
 from .models import *
+import requests
 
 @login_required(login_url='login')
 def home(request):
@@ -16,16 +17,16 @@ def generar_orden(request):
     form = ProveedorForm()
     if request.method == 'POST':
         form = ProveedorForm(request.POST)
-        new_sale(request)
-        return HttpResponseRedirect('/historial-orden')
+        idOrden = new_sale(request)
+        return HttpResponseRedirect('/detalle-orden/'+idOrden)
     context = {'form':form}
     return render(request, 'core/ordenCompra.html', context)
 
 @login_required(login_url='login')
 def historial_orden(request):
     ordenes = Orden.objects.all();
-    countOrdenes = ordenes.count();
-    return render(request, 'core/historial.html', locals())
+    context = {'ordenes':ordenes}
+    return render(request, 'core/historial.html', context)
 
 @login_required(login_url='login')
 def productos(request, id_proveedor):
@@ -36,8 +37,11 @@ def productos(request, id_proveedor):
     return JsonResponse({"productos":lista_productos})
 
 @login_required(login_url='login')
-def detalle_orden(request):
-    return render(request, "core/detalleOrden.html")
+def detalle_orden(request, id_orden):
+    orden = Orden.objects.get(pk=id_orden)
+    context = {'orden':orden}
+    print(orden)
+    return render(request, "core/detalleOrden.html", context)
 
 
 def new_sale(request):
@@ -54,8 +58,9 @@ def new_sale(request):
         "firma": request.POST.get("firma"),
         "idDepartamento": request.user.departamento,
         "estatus": "En espera...",
+        "idProveedor": request.POST.get("provedor"),
     })
-
+    
     subtotal = 0
     for n in nums:
         product = Producto.objects.get(
@@ -68,9 +73,16 @@ def new_sale(request):
             "idProducto": product,
         })
         subtotal += product.precio * int(request.POST.get("qty_"+n))
-
+    
     orden.subtotal = subtotal
     orden.iva = subtotal * 0.16
     orden.total = subtotal * 1.16
     orden.save()
-    
+
+    form_data = {"NombreArea": orden.idDepartamento.nombre, "NombreProveedor": orden.idProveedor.nombre, "Subtotal": orden.subtotal, "IVA": orden.iva, "Total": orden.total, "Firma": orden.firma}
+    response = requests.post('https://deerland-finanzas.herokuapp.com/solicitud-recursos/agregar', data=form_data)
+    resp = response.json()
+    orden.estatus = resp[0]["ES_Solicitud_R"]
+    orden.idSolicitud = resp[0]["ID_Solicitud_R"]
+    orden.save()  
+    return orden.pk

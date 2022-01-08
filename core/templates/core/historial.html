@@ -18,22 +18,22 @@
                                 <th>Proveedor</th>
                                 <th>Fecha</th>
                                 <th>Total</th>
-                                <th>Estatus</th>
                                 <th>Detalle</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Tiger Nixon</td>
-                                <td>System Architect</td>
-                                <td>Edinburgh</td>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>
-                                    <a href="{% url 'detalle_orden' %}" class=" btn waves-effect
-                                        waves-light btn-success">Ver</a>
-                                </td>
-                            </tr>
+                            {% for orden in ordenes %}
+                                <tr>
+                                    <td>{{ orden.idOrden }}</td>
+                                    <td>{{ orden.idProveedor.nombre }}</td>
+                                    <td>{{ orden.fecha }}</td>
+                                    <td>{{ orden.total }}</td>
+                                    <td>
+                                        <a href="{% url 'detalle_orden' orden.pk %}" class=" btn waves-effect
+                                            waves-light btn-success">Ver</a>
+                                    </td>
+                                </tr>
+                            {% endfor s%}
 
                         </tbody>
                     </table>
